@@ -2,7 +2,7 @@ Insert image here--> ![Image]()
 
 <!-- ![Image](https://cdn.shopify.com/s/files/1/0064/9972/9490/products/Silver-Gold-Primary_600x.jpg?v=1638307291) -->
 
-# Silver-and-Gold
+# Silver & Gold
 
 ## Date: 10/7/2022
 
@@ -40,9 +40,18 @@ The project was deployed on Surge, and can be found [here](https://surge.sh/)
 
 ### **_Screenshots_**
 
+#### screenshot title
+
+![Image](urlGoesHere)
+
 ---
 
 ### **_Future Updates_**
+
+- [ ] Future Update 1
+- [ ] Future Update 2
+- [x] Completed Update
+- [x] ~~Strikethrough~~ Items Also
 
 ---
 
