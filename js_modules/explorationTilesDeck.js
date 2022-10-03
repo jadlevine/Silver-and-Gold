@@ -1,5 +1,3 @@
-console.log('js is running')
-
 ////Exploration Tiles////
 class Exploration {
   constructor(id, regions) {
