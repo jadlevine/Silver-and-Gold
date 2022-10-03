@@ -14,7 +14,7 @@ Insert image here--> ![Image]()
 
 ### **_Description_**
 
-A JavaScript version of "Silver and Gold", where points are earned by crossing off boxes on Treasure Cards. The player with the most points after 4 rounds wins!
+A JavaScript/HTML/CSS version of "Silver and Gold", where points are earned by crossing off boxes on Treasure Cards. The player with the most points after 4 rounds wins!
 
 ---
 
@@ -30,7 +30,13 @@ A JavaScript version of "Silver and Gold", where points are earned by crossing o
 
 ### **_Getting Started_**
 
-(Game Description goes here)
+Players start with 4 Treasure cards. Select two of them to begin the game. On player turn, click on available boxes on either of the two treasure cards matching the shape on the current expedition card. The pattern may be rotated and/or mirrorer, but should otherwise stay the same. Boxes can only be used once. Players may chose to select and one box instead of using the shape on the current expedition card.
+
+Once all of the available boxes on a treasure card are checked, the card is complete. Select a new card from the Treasure Cards "market" or select a random card from the Treasure Cards Deck.
+
+Points are scored from completed treasure cards, bonus seals, coins, and palm trees. The player with the most points at the end of 4 rounds is the winner.
+
+#### **See Instructions page for further details.**
 
 Th project was organized using Trello. The board can be found [here](https://trello.com/b/msb0rZe6)
 
