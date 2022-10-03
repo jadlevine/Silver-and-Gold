@@ -12,7 +12,7 @@ Insert image here--> ![Image]()
 
 ### **_Description_**
 
-A JavaScript/HTML/CSS homage to "Silver and Gold" by PANDASAURUS GAMES, where points are earned by exploring Treasure Maps. The player with the most points after 4 rounds wins!
+A JavaScript/HTML/CSS homage to the game "Silver and Gold", where points are earned by exploring Treasure Maps. The player with the most points after 4 rounds wins!
 
 ---
 
