@@ -1,8 +1,6 @@
 Insert image here--> ![Image]()
 
-<!-- ![Image](https://cdn.shopify.com/s/files/1/0064/9972/9490/products/Silver-Gold-Primary_600x.jpg?v=1638307291) -->
-
-# Silver & Gold
+# Treasure Hunter
 
 ## Date: 10/7/2022
 
@@ -14,7 +12,7 @@ Insert image here--> ![Image]()
 
 ### **_Description_**
 
-A JavaScript/HTML/CSS version of "Silver and Gold", where points are earned by crossing off boxes on Treasure Cards. The player with the most points after 4 rounds wins!
+A JavaScript/HTML/CSS homage to "Silver and Gold" by PANDASAURUS GAMES, where points are earned by exploring Treasure Maps. The player with the most points after 4 rounds wins!
 
 ---
 
@@ -30,11 +28,11 @@ A JavaScript/HTML/CSS version of "Silver and Gold", where points are earned by c
 
 ### **_Getting Started_**
 
-Players start with 4 Treasure cards. Select two of them to begin the game. On player turn, click on available boxes on either of the two treasure cards matching the shape on the current expedition card. The pattern may be rotated and/or mirrorer, but should otherwise stay the same. Boxes can only be used once. Players may chose to select and one box instead of using the shape on the current expedition card.
+Players start with 4 Treasure Maps. Select two to begin. On player turn, explore regions on one of your Treasure Maps according to the the exploration tile pattern. The patterns may be rotated and/or mirrorer. Regions on Treasure Maps can only be explored once. Players may chose to explore a single region instead of using the current exploration pattern.
 
-Once all of the available boxes on a treasure card are checked, the card is complete. Select a new card from the Treasure Cards "market" or select a random card from the Treasure Cards Deck.
+Once a Treasure Map has been completely explored, it is complete. Select a new Treasure Map to explore from the Market, or select a random Map from the Treasure Maps Deck.
 
-Points are scored from completed treasure cards, bonus seals, coins, and palm trees. The player with the most points at the end of 4 rounds is the winner.
+Points are scored from completed Treasure Maps, Map bonuses, gems, and coconuts. The player with the most points at the end of 4 rounds is the winner.
 
 #### **See Instructions page for further details.**
 
@@ -63,6 +61,6 @@ The project was deployed on Surge, and can be found [here](https://surge.sh/)
 
 ### **_Credits_**
 
-#### Game Designer [PANDASAURUS GAMES](https://pandasaurusgames.com/)
+#### Original Game Designer [PANDASAURUS GAMES](https://pandasaurusgames.com/)
 
 #### GA Instructor: [Michael Lackey](https://michaellackey.com/)
