@@ -1,6 +1,129 @@
+body{
+  text-align: center;
+  margin: 0;
+  /* width: 100vw; */
+  /* height: 100vh; */
+  background-color:darkslategray;
+  color:blanchedalmond;
+}
 
-h1{
-  background-color: aqua;
-  width: 1300px;
-  height: 650px;
+#global-area{
+  display:flex;
+  justify-content: center;
+  /* flex-wrap:wrap; */
+  background-color:teal;
+}
+#global-tm-area{
+  display: flex;
+  background-color:green;
+}
+
+#global-explore-area{
+  display: flex;
+  background-color: blue;
+}
+#global-game-status{
+  display: flex;
+  flex-direction: column;
+  background-color:green;
+}
+
+#players-area{
+  display:flex;
+  justify-content:space-around;
+  background-color:brown;
+}
+.player-area{
+  display:flex;
+  flex-direction: column;
+  border:2px solid black;
+}
+.player-score-area{
+  display:flex;
+  flex-direction: column;
+  border:2px solid black;
+}
+.player-tms{
+  display: flex;
+  border:2px solid black;
+}
+.player-complete-tms{
+  display:flex;
+  border:2px solid black;
+}
+.card{
+  border: 1px solid black;
+  border-radius: 10px;
+  width: 6.4vw;
+  height:10vw;
+  padding: .7vw;
+  margin: 1vw;
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tm .top{
+  display:flex;
+  justify-content: space-between;
+}
+
+.tm-bonus{
+  display:flex;
+  flex-direction: column;
+  background-color:bisque;
+  color:black;
+  font-size: smaller;
+}
+.grid{
+  display:grid;
+  grid-template: repeat(4,1fr)/repeat(4,1fr);
+  justify-content:center;
+  align-content: center;
+}
+#explore-tile-grid{
+  display:grid;
+  grid-template: repeat(3,1.25vw)/repeat(2,1.25vw);
+  justify-content:center;
+  /* align-content: center; */
+  /* background-color: aqua; */
+}
+.region{
+  border: 1px solid black;
+  width: 1.25vw;
+  height: 1.25vw;
+}
+.fourteen{
+  background-color:blueviolet;
+}
+.twelve{
+  background-color:orangered;
+}
+.ten{
+  background-color: green;
+}
+.eight{
+  background-color: blue;
+}
+.false{
+  border:0px;
+}
+.banana-true{
+  background: url(clipart/banana.png);
+  background-size: 1.2vw;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.coconut-true{
+  background: url(clipart/coconut.png);
+  background-size: 1.4vw;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.gem-true{
+  background: url(clipart/gem.png);
+  background-size: 1.2vw;
+  background-position: center;
+  background-repeat: no-repeat;
+  
 }

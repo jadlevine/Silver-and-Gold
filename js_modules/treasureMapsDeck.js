@@ -3,7 +3,7 @@ class Treasure {
   constructor(
     id,
     suit,
-    hasBonus,
+    hasBonus, //this can all be removed... all you need is bonusSuit (14,12,10,8,0)...b/c all 14 bonuses = 2, 12bonus =2, 10bonus-1, 8bonus=1
     bonusValue,
     bonusSuit,
     regions,
@@ -255,7 +255,7 @@ const t21 = new Treasure(
   [5, 12]
 )
 const t22 = new Treasure(
-  't12',
+  't22',
   12,
   false,
   0,

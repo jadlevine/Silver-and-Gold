@@ -6,7 +6,7 @@ Insert image here--> ![Image]()
 
 ### Author: Josh Levine
 
-#### [LinkedIn](www.linkedin.com/in/joshua-levine-43b076233) | [GitHub](https://github.com/jadlevine) | [Trello](https://trello.com/u/joshualevine17/boards)
+#### [LinkedIn](www.linkedin.com/in/joshua-levine-43b076233) | [GitHub](https://github.com/jadlevine) | [Trello](https://trello.com/b/msb0rZe6/treasure-hunter-game-project)
 
 ---
 
@@ -62,5 +62,7 @@ The project was deployed on Surge, and can be found [here](https://surge.sh/)
 ### **_Credits_**
 
 #### Original Game Designer [PANDASAURUS GAMES](https://pandasaurusgames.com/)
+
+#### Clipart [clipart-library.com](http://clipart-library.com/)
 
 #### GA Instructor: [Michael Lackey](https://michaellackey.com/)

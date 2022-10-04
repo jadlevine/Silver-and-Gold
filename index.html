@@ -9,8 +9,65 @@
   <title>Treasure Hunter</title>
 </head>
 <body>
-  <h1>Treasure Hunter</h1>
-  
+  <header>
+    <h1>Treasure Hunter</h1>
+  </header>
+  <!-- consider the rule that areas can have ids, but individual items (cards should be identifiable by class... multiple classes e.g., class="tm-card p1 active2") -->
+  <div id="global-area">global-area
+    <div id="global-tm-area">global-tm-area
+      <div id="tm-deck" class="card tm deck">tm-deck</div>
+      <div id="tm1-avail"class="card tm avail1">tm a1</div>
+      <div id="tm2-avail"class="card tm avail2">tm a2</div>
+      <div id="tm3-avail"class="card tm avail3">tm a3</div>
+      <div id="tm4-avail"class="card tm avail4">tm a4</div>
+    </div>
+    <!-- <div>hello there</div> -->
+    <div id="global-explore-area">global-explore-area
+      <div id="explore-deck"class="et card deck">explore-deck</div>
+      <div id="explore-tile"class="et card current">
+        <div>Explore Tile</div>
+        <div id="explore-tile-grid"></div>
+
+      </div>
+    </div>
+    <div id="global-game-status">global-game-status
+      <div id="round-tracker">round-tracker</div>
+      <div id="crown-tracker">crown-tracker</div>
+      <div id="all-explore-tiles">all-exploration-tiles</div>
+    </div>
+  </div>
+  <div id="players-area">
+    <div id="p1-area" class="player-area p1">Player 1
+      <div id="p1-score-area" class="player-score-area p1">.player-score-area player1
+        <div>gems</div>
+        <div>coconuts</div>
+        <div>complete-maps</div>
+        <div>map-bonuses</div>
+        <div>total</div>
+      </div>
+      <div class="player-tms player1">.player-tms player1
+        <div id="p1-tm1" class="card tm active1 p1">map1</div>
+        <div id="p1-tm2" class="card tm active2 p1">map2</div>
+        <div id="p1-tm3" class="card tm active3 p1">map3</div>
+        <div id="p1-tm4" class="card tm active4 p1">map4</div>
+      </div>
+      <div class="player-complete-tms player1">player-complete-tms player1
+        <div class="card tm complete14 p1">14s</div>
+        <div class="card tm complete12 p1">12s</div>
+        <div class="card tm complete10 p1">10s</div>
+        <div class="card tm complete8 p1">8s</div>
+      </div>
+    </div>
+    <div id="p2-area" class="player-area p2">Player 2
+      <div id="p2-tm1" class="card tm p2 active1">
+        
+      </div>
+    </div>
+    <div id="player-3">Player 3</div>
+    <div id="player-4">Player 4</div>
+  </div>
+<footer>Footer: Here for the space!</footer>
+
   
 </body>
 </html>
