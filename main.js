@@ -44,9 +44,11 @@ const dealET = () => {
   etGrid.innerHTML = '' //clears the etGrid
   for (let i = 1; i < 7; i++) {
     let newRegion = document.createElement('div')
-    newRegion.innerHTML = `<div class="et region r${i} ${nextET.regions.includes(
-      i
-    )}"</div>`
+    newRegion.id = `et-r${i}`
+    newRegion.classList = 'region'
+    let regionPresence = nextET.regions.includes(i)
+    newRegion.classList.add(`region-${regionPresence}`)
+
     etGrid.appendChild(newRegion)
   }
 }
@@ -119,7 +121,6 @@ const dealTM = (destinationID) => {
   destination.appendChild(newGrid)
 
   ////add regions according to nextTM object properties
-  console.log(nextTM.regions)
   let gridElement = document.querySelector(`#${destinationID}-grid`)
   for (let i = 1; i < 17; i++) {
     let newRegion = document.createElement('div')
@@ -143,20 +144,16 @@ const dealTM = (destinationID) => {
 }
 
 //player turn function
-const playerTurn = () => {}
-playerTurn()
+// const playerTurn = () => {}
+// playerTurn()
 
 const regionClicked = (event) => {
-  console.log(`${event.target}`)
+  // YOU ARE HERE//
+  //this line logs the id of any active region clicked
+  //the explore tile clicks are weird... need to debug... if we even want to be able to click on it...
+  //****--THIS-> */...maybe clicking and dragging from the explore tile is a stretch goal, and I should just turn off ANY clicking on the explore tile, for now
+  console.log(`${event.target.id}`)
 }
-////////////////////////////////////
-//EVENT LISTENERS//
-////////////////////////////////////
-// document.querySelector('#p1-tm1 .grid').addEventListener('click', regionClicked)
-//what i want to do is document.querySelector('#p1-tm1 .region')
-//go through the array(?) result with a foreach
-//add an event listener to every region that is active
-//have the event listener trigger a function that registers the player move (check if valid, place tile, etc...)
 
 ////////////////////////////////////
 //Function Calls
@@ -170,10 +167,20 @@ dealET() //removes an etCard from shuffledETDeck and deals it to the #explore-ti
 // let suitClass = convertSuit(14)
 
 dealTM('p1-tm1')
-// dealTM('p1-tm2')
-// dealTM('p1-tm3')
-// dealTM('p1-tm4')
-// dealTM('global-tm1')
-// dealTM('tm2-avail')
-// dealTM('tm3-avail')
-// dealTM('tm4-avail')
+dealTM('p1-tm2')
+dealTM('p1-tm3')
+dealTM('p1-tm4')
+dealTM('global-tm1')
+dealTM('global-tm2')
+dealTM('global-tm3')
+dealTM('global-tm4')
+
+////////////////////////////////////
+//EVENT LISTENERS//
+////////////////////////////////////
+
+//listen for any click on an active region
+const allActiveRegions = document.querySelectorAll('.region-true')
+allActiveRegions.forEach((region) => {
+  region.addEventListener('click', regionClicked)
+})
