@@ -17,6 +17,8 @@ let currentPlayer = startingPlayer
 let currentET
 let shuffledTMDeck
 let shuffledETDeck
+let etRotationIndex = 0
+let etMirrorIndex = 0
 
 ////////////////////////////////////
 //FUNCTIONS//
@@ -45,16 +47,38 @@ const shuffle = (deck) => {
 //dealET function
 const dealET = () => {
   currentET = shuffledETDeck.shift()
+  renderET()
+}
+
+const renderET = () => {
   let etGrid = document.querySelector('#explore-tile-grid')
   etGrid.innerHTML = '' //clears the etGrid
   for (let i = 1; i < 17; i++) {
     let newRegion = document.createElement('div')
     newRegion.id = `et-r-${i}`
     newRegion.classList = 'region'
-    let regionPresence = currentET.regions.includes(i)
+    let regionPresence =
+      currentET.regions[etMirrorIndex][etRotationIndex].includes(i)
     newRegion.classList.add(`region-${regionPresence}`)
     etGrid.appendChild(newRegion)
   }
+}
+
+const rotateET = () => {
+  if (etRotationIndex === 3) {
+    etRotationIndex = 0
+  } else {
+    etRotationIndex++
+  }
+  renderET()
+}
+const mirrorET = () => {
+  if (etMirrorIndex === 1) {
+    etMirrorIndex = 0
+  } else {
+    etMirrorIndex++
+  }
+  renderET()
 }
 
 ////////////////////////////////
@@ -159,6 +183,7 @@ const regionHovered = (event) => {
   // console.log(`${event.target.parentNode.id}`)
 
   //clear any previous hovers ... remove elements with class hover?
+  clearHovers()
 
   //parse the event target id
   let targetRegion = event.target.id
@@ -172,7 +197,7 @@ const regionHovered = (event) => {
   //select the parent grid
   let parentGrid = document.querySelector(`#${event.target.parentNode.id}`)
   // console.log(parentGrid.id)
-  //read through the currentET for regions
+  //read through the currentET for regions and place them onto the tmap at target
   for (let i = 1; i < 17; i++) {
     let newHoverRegion = document.createElement('div')
     // newHoverRegion.id = `et-r${i}`
@@ -181,31 +206,104 @@ const regionHovered = (event) => {
     // console.log(currentET.regions)
     let regionPresence = currentET.regions.includes(i)
     newHoverRegion.classList.add(`region-${regionPresence}`)
+    newHoverRegion.style.zIndex = -1
+    if (regionPresence === true) {
+      newHoverRegion.style.backgroundColor = 'rgba(0, 255, 0, 0.4)'
+    }
 
     //transpose etRegion to eRegionTarget (on tm Grid)
     ///this might need some clean up
     let eRegionTargetNum = i + gridTargetNum - 2
+    if (eRegionTargetNum > 16) {
+      clearHovers()
+      return console.log(`Illegal placement`)
+    }
     let eRegionTarget = eRegionTargetNum.toString()
     newHoverRegion.classList.add(`r-${eRegionTarget}`)
 
-    newHoverRegion.style.backgroundColor = 'rgba(0, 255, 0, 0.4)'
     parentGrid.appendChild(newHoverRegion)
   }
-  //merge the currentET grid with the tmGrid using .map?
+
+  //check if hover is legal
+  // let allHoverTrue = document.querySelectorAll('.hover.region-true')
+  // if (allHoverTrue.length !== currentET.regions.length) {
+  //   console.log('Illegal tile placement')
+  //   clearHovers()
+  // }
 
   //build the currentET active region grid
   //place(?)the (opacity=0.5?) etGrid OVER (z-index=1?) the tm-grid starting at the mouse hover region
   //give the new element class "hover" so it can be cleared when the mouse moves
 
-  document.querySelector
+  // document.querySelector
+}
+const clearHovers = () => {
+  let previousHovers = document.querySelectorAll('.hover')
+  previousHovers.forEach((previousHover) => {
+    previousHover.remove()
+  })
 }
 
 const regionClicked = (event) => {
-  // YOU ARE HERE//
-  //this line logs the id of any active region clicked
-  //the explore tile clicks are weird... need to debug... if we even want to be able to click on it...
-  //****--THIS-> */...maybe clicking and dragging from the explore tile is a stretch goal, and I should just turn off ANY clicking on the explore tile, for now
   console.log(`${event.target.id}`)
+  // YOU ARE HERE//
+  ////are they still?...the explore tile clicks are weird... need to debug... if we even want to be able to click on it...
+  //****--THIS-> */...maybe clicking and dragging from the explore tile is a stretch goal, and I should just turn off ANY clicking on the explore tile, for now
+
+  //transform the explore tile to the click location
+  //check if tile can be legally placed there (compare tile region array to card region array?)
+  //if above is true - place tile?
+  //place tile function?
+  //if not legal, flash alert, suggest rotating or mirroring
+
+  //////////////////////
+  ///YOU ARE HERE--go check out line 214 above for transform
+  //transpose explore tile to event target location
+  let baseETRegions = currentET.regions[etMirrorIndex][etRotationIndex]
+  let eventTargetArrWtf = event.target.id.split('-')
+  let eventTargetNumStringWtf = eventTargetArrWtf[eventTargetArrWtf.length - 1]
+  let eventTargetNumNumWtf = parseInt(eventTargetNumStringWtf)
+
+  //map baseETRegions to baseETRegionsRelativeToTargets
+  const baseETRegionsRelativeToTargets = baseETRegions.map((bETRegion) => {
+    const bETRegionRelativetoTarget = bETRegion + eventTargetNumNumWtf - 2
+    return bETRegionRelativetoTarget
+  })
+
+  console.log(eventTargetArrWtf)
+  console.log(baseETRegions)
+  console.log(baseETRegionsRelativeToTargets)
+  //transpose etRegion to eRegionTarget (on tm Grid)
+  ///this might need some clean up
+  // let eRegionTargetNum = i + gridTargetNum - 2
+
+  //check if legal
+  let currentExploreRegions = currentET.regions[etMirrorIndex][etRotationIndex]
+  let parentGrid = document.querySelector(`#${event.target.parentNode.id}`)
+  let tmRegions = parentGrid.children
+  let tmRegionTrueArr = []
+
+  ///this is a little nuts
+  for (let i = 0; i < tmRegions.length; i++) {
+    if (tmRegions[i].classList[2] === 'region-true') {
+      let activeRegionIDSplitArr = tmRegions[i].id.split('-')
+      let wtf = activeRegionIDSplitArr[activeRegionIDSplitArr.length - 1]
+      let wtfNum = parseInt(wtf)
+      tmRegionTrueArr.push(wtfNum)
+    }
+  }
+  currentExploreRegions.forEach((element) => {
+    let legal = true
+    let legalRegion = tmRegionTrueArr.some((num) => {
+      return num === element
+    })
+    console.log(`${element} is legal?: ${legalRegion}`)
+  })
+  console.log(tmRegionTrueArr)
+  {
+    /* <div id="p1-tm1-grid" class="tm-grid"><div id="p1-tm1-r-1" class="region r-1 region-true gem-false banana-false coconut-false"></div><div id="p1-tm1-r-2" class="region r-2 region-false gem-false banana-false coconut-false"></div><div id="p1-tm1-r-3" class="region r-3 region-true gem-false banana-false coconut-false"></div><div id="p1-tm1-r-4" class="region r-4 region-true gem-false banana-false coconut-false"></div><div id="p1-tm1-r-5" class="region r-5 region-true gem-false banana-false coconut-true"></div><div id="p1-tm1-r-6" class="region r-6 region-true gem-false banana-false coconut-false"></div><div id="p1-tm1-r-7" class="region r-7 region-true gem-false banana-false coconut-false"></div><div id="p1-tm1-r-8" class="region r-8 region-true gem-false banana-true coconut-false"></div><div id="p1-tm1-r-9" class="region r-9 region-true gem-false banana-false coconut-false"></div><div id="p1-tm1-r-10" class="region r-10 region-false gem-false banana-false coconut-false"></div><div id="p1-tm1-r-11" class="region r-11 region-true gem-false banana-false coconut-false"></div><div id="p1-tm1-r-12" class="region r-12 region-true gem-false banana-false coconut-false"></div><div id="p1-tm1-r-13" class="region r-13 region-false gem-false banana-false coconut-false"></div><div id="p1-tm1-r-14" class="region r-14 region-false gem-false banana-false coconut-false"></div><div id="p1-tm1-r-15" class="region r-15 region-false gem-false banana-false coconut-false"></div><div id="p1-tm1-r-16" class="region r-16 region-false gem-false banana-false coconut-false"></div></div> */
+  }
+  // let currentExploreRegions = currentET.regions[etMirrorIndex][etRotationIndex].includes(i)
 }
 
 const gameSetup = () => {
@@ -242,8 +340,15 @@ allActiveRegions.forEach((region) => {
   //listen for clicks
   region.addEventListener('click', regionClicked)
   //listen for mouseovers
-  region.addEventListener('mouseover', regionHovered)
+  ////THIS NEED TO COME BACK FOR MOUSEOVER TO WORK///
+  // region.addEventListener('mouseover', regionHovered)
 })
 
+const rotateButton = document.querySelector('#rotate-button')
+const mirrorButton = document.querySelector('#mirror-button')
+rotateButton.addEventListener('click', rotateET)
+mirrorButton.addEventListener('click', mirrorET)
+
+//for testing only, will eventually be automatic when a round is over, or after a confirm on "ready to go onto next exploration?
 //deals an ET tile when e-deck is clicked
 document.querySelector('#explore-deck').addEventListener('click', dealET)

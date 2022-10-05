@@ -31,7 +31,7 @@ body{
 #players-area{
   display:flex;
   justify-content:space-around;
-  background-color:brown;
+  background-color:rgba(200,100,120,0.4);
 }
 .player-area{
   display:flex;
@@ -157,8 +157,9 @@ body{
 }
 .region-false{
   border:0px;
-  background-color: rgba(0,0,0,1)
+  /* background-color: rgba(0,0,0,1) */
 }
+/*
 .banana-true{
   background: url(clipart/banana.png);
   background-size: 1.2vw;
@@ -178,3 +179,4 @@ body{
   background-repeat: no-repeat;
   
 }
+*/
