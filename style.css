@@ -63,7 +63,7 @@ body{
   justify-content: space-between;
 }
 
-.tm .top{
+.tm-top{
   display:flex;
   justify-content: space-between;
 }
@@ -75,7 +75,7 @@ body{
   color:black;
   font-size: smaller;
 }
-.grid{
+.tm-grid{
   display:grid;
   grid-template: repeat(4,1fr)/repeat(4,1fr);
   justify-content:center;
@@ -105,7 +105,7 @@ body{
 .eight{
   background-color: blue;
 }
-.false{
+.region-false{
   border:0px;
 }
 .banana-true{
