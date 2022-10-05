@@ -51,6 +51,7 @@ body{
   display:flex;
   border:2px solid black;
 }
+
 .card{
   border: 1px solid black;
   border-radius: 10px;
@@ -62,12 +63,10 @@ body{
   flex-direction: column;
   justify-content: space-between;
 }
-
 .tm-top{
   display:flex;
   justify-content: space-between;
 }
-
 .tm-bonus{
   display:flex;
   flex-direction: column;
@@ -80,18 +79,63 @@ body{
   grid-template: repeat(4,1fr)/repeat(4,1fr);
   justify-content:center;
   align-content: center;
+  grid-template-areas:"r1 r2 r3 r4" "r5 r6 r7 r8" "r9 r10 r11 r12" "r13 r14 r15 r16"
 }
 #explore-tile-grid{
   display:grid;
-  grid-template: repeat(3,1.25vw)/repeat(2,1.25vw);
+  /* grid-template: repeat(3,1.25vw)/repeat(2,1.25vw); */
+  grid-template: repeat(4,1fr)/repeat(4,1fr);
   justify-content:center;
   /* align-content: center; */
   /* background-color: aqua; */
 }
-.region{
-  border: 1px solid black;
-  width: 1.25vw;
-  height: 1.25vw;
+.r-1{
+  grid-area: r1;
+}
+.r-2{
+  grid-area: r2;
+}
+.r-3{
+  grid-area: r3;
+}
+.r-4{
+  grid-area: r4;
+}
+.r-5{
+  grid-area: r5;
+}
+.r-6{
+  grid-area: r6;
+}
+.r-7{
+  grid-area: r7;
+}
+.r-8{
+  grid-area: r8;
+}
+.r-9{
+  grid-area: r9;
+}
+.r-10{
+  grid-area: r10;
+}
+.r-11{
+  grid-area: r11;
+}
+.r-12{
+  grid-area: r12;
+}
+.r-13{
+  grid-area: r13;
+}
+.r-14{
+  grid-area: r14;
+}
+.r-15{
+  grid-area: r15;
+}
+.r-16{
+  grid-area: r16;
 }
 .fourteen{
   background-color:blueviolet;
@@ -105,8 +149,15 @@ body{
 .eight{
   background-color: blue;
 }
+
+.region-true{
+  border: 1px solid black;
+  width: 1.25vw;
+  height: 1.25vw;
+}
 .region-false{
   border:0px;
+  background-color: rgba(0,0,0,1)
 }
 .banana-true{
   background: url(clipart/banana.png);

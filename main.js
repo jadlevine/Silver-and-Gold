@@ -11,7 +11,12 @@ console.log(`test id: ${tmTestCard.id}`)
 ////////////////////////////////////
 //GLOBAL VARIABLES//
 ////////////////////////////////////
-// let roundNum, startPlayer, currentPlayer
+let roundNum = 0
+let startingPlayer = 'p1' //this is only necessary if we want to offer the user to choose first player
+let currentPlayer = startingPlayer
+let currentET
+let shuffledTMDeck
+let shuffledETDeck
 
 ////////////////////////////////////
 //FUNCTIONS//
@@ -39,16 +44,15 @@ const shuffle = (deck) => {
 
 //dealET function
 const dealET = () => {
-  let nextET = shuffledETDeck.shift()
+  currentET = shuffledETDeck.shift()
   let etGrid = document.querySelector('#explore-tile-grid')
   etGrid.innerHTML = '' //clears the etGrid
-  for (let i = 1; i < 7; i++) {
+  for (let i = 1; i < 17; i++) {
     let newRegion = document.createElement('div')
-    newRegion.id = `et-r${i}`
+    newRegion.id = `et-r-${i}`
     newRegion.classList = 'region'
-    let regionPresence = nextET.regions.includes(i)
+    let regionPresence = currentET.regions.includes(i)
     newRegion.classList.add(`region-${regionPresence}`)
-
     etGrid.appendChild(newRegion)
   }
 }
@@ -124,8 +128,11 @@ const dealTM = (destinationID) => {
   let gridElement = document.querySelector(`#${destinationID}-grid`)
   for (let i = 1; i < 17; i++) {
     let newRegion = document.createElement('div')
-    newRegion.id = `${destinationID}-r${i}`
+    newRegion.id = `${destinationID}-r-${i}`
     newRegion.classList = 'region'
+
+    let gridAreaString = i.toString()
+    newRegion.classList.add(`r-${gridAreaString}`)
 
     let regionPresence = nextTM.regions.includes(i)
     newRegion.classList.add(`region-${regionPresence}`)
@@ -147,6 +154,52 @@ const dealTM = (destinationID) => {
 // const playerTurn = () => {}
 // playerTurn()
 
+const regionHovered = (event) => {
+  // console.log(`${event.target.id}`)
+  // console.log(`${event.target.parentNode.id}`)
+
+  //clear any previous hovers ... remove elements with class hover?
+
+  //parse the event target id
+  let targetRegion = event.target.id
+  // console.log(targetRegion)
+  //three lines below could probably be combined into one with method chaining
+  let gridTargetArr = targetRegion.split('-')
+  let gridTarget = gridTargetArr[gridTargetArr.length - 1]
+  let gridTargetNum = parseInt(gridTarget)
+  // console.log(`${gridTargetNum} is a ${typeof gridTargetNum}`)
+
+  //select the parent grid
+  let parentGrid = document.querySelector(`#${event.target.parentNode.id}`)
+  // console.log(parentGrid.id)
+  //read through the currentET for regions
+  for (let i = 1; i < 17; i++) {
+    let newHoverRegion = document.createElement('div')
+    // newHoverRegion.id = `et-r${i}`
+    newHoverRegion.classList = 'region'
+    newHoverRegion.classList.add(`hover`)
+    // console.log(currentET.regions)
+    let regionPresence = currentET.regions.includes(i)
+    newHoverRegion.classList.add(`region-${regionPresence}`)
+
+    //transpose etRegion to eRegionTarget (on tm Grid)
+    ///this might need some clean up
+    let eRegionTargetNum = i + gridTargetNum - 2
+    let eRegionTarget = eRegionTargetNum.toString()
+    newHoverRegion.classList.add(`r-${eRegionTarget}`)
+
+    newHoverRegion.style.backgroundColor = 'rgba(0, 255, 0, 0.4)'
+    parentGrid.appendChild(newHoverRegion)
+  }
+  //merge the currentET grid with the tmGrid using .map?
+
+  //build the currentET active region grid
+  //place(?)the (opacity=0.5?) etGrid OVER (z-index=1?) the tm-grid starting at the mouse hover region
+  //give the new element class "hover" so it can be cleared when the mouse moves
+
+  document.querySelector
+}
+
 const regionClicked = (event) => {
   // YOU ARE HERE//
   //this line logs the id of any active region clicked
@@ -155,32 +208,42 @@ const regionClicked = (event) => {
   console.log(`${event.target.id}`)
 }
 
+const gameSetup = () => {
+  shuffledTMDeck = shuffle(tmDeck)
+  shuffledETDeck = shuffle(etDeck)
+
+  dealET()
+  dealTM('p1-tm1')
+  dealTM('p1-tm2')
+  dealTM('p1-tm3')
+  dealTM('p1-tm4')
+  dealTM('p2-tm1')
+  dealTM('global-tm1')
+  dealTM('global-tm2')
+  dealTM('global-tm3')
+  dealTM('global-tm4')
+}
+
 ////////////////////////////////////
 //Function Calls
 ////////////////////////////////////
-// //calling the shuffle function
-const shuffledTMDeck = shuffle(tmDeck)
-const shuffledETDeck = shuffle(etDeck)
-dealET() //removes an etCard from shuffledETDeck and deals it to the #explore-tile-grid
-
-// let bonusVal = convertSuit(14, 'bonusVal')
-// let suitClass = convertSuit(14)
-
-dealTM('p1-tm1')
-dealTM('p1-tm2')
-dealTM('p1-tm3')
-dealTM('p1-tm4')
-dealTM('global-tm1')
-dealTM('global-tm2')
-dealTM('global-tm3')
-dealTM('global-tm4')
+gameSetup()
 
 ////////////////////////////////////
 //EVENT LISTENERS//
 ////////////////////////////////////
 
-//listen for any click on an active region
-const allActiveRegions = document.querySelectorAll('.region-true')
+//isolate avtive regions ('.region-true') of current player tms area (e.g., 'p1-tms-area')
+const currentPlayerTMareaID = `${currentPlayer}-tms-area`
+const allActiveRegions = document.querySelectorAll(
+  `#${currentPlayerTMareaID} .region-true`
+)
 allActiveRegions.forEach((region) => {
+  //listen for clicks
   region.addEventListener('click', regionClicked)
+  //listen for mouseovers
+  region.addEventListener('mouseover', regionHovered)
 })
+
+//deals an ET tile when e-deck is clicked
+document.querySelector('#explore-deck').addEventListener('click', dealET)
