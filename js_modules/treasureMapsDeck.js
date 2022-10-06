@@ -20,7 +20,7 @@ class Treasure {
 }
 
 const t1 = new Treasure(
-  't1',
+  't-1',
   14,
   12,
   [1, 2, 3, 4, 6, 7, 9, 10, 11, 12, 13, 14, 15, 16],
@@ -29,7 +29,7 @@ const t1 = new Treasure(
   [1, 9, 12]
 )
 const t2 = new Treasure(
-  't2',
+  't-2',
   14,
   10,
   [1, 2, 3, 4, 5, 6, 7, 10, 11, 12, 13, 14, 15, 16],
@@ -38,7 +38,7 @@ const t2 = new Treasure(
   [4, 5, 12]
 )
 const t3 = new Treasure(
-  't3',
+  't-3',
   14,
   8,
   [2, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
@@ -47,7 +47,7 @@ const t3 = new Treasure(
   [3, 13, 16]
 )
 const t4 = new Treasure(
-  't4',
+  't-4',
   14,
   0,
   [2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
@@ -56,7 +56,7 @@ const t4 = new Treasure(
   [16]
 )
 const t5 = new Treasure(
-  't5',
+  't-5',
   14,
   0,
   [1, 2, 3, 4, 5, 8, 9, 10, 11, 12, 13, 14, 15, 16],
@@ -65,7 +65,7 @@ const t5 = new Treasure(
   [2, 11]
 )
 const t6 = new Treasure(
-  't6',
+  't-6',
   14,
   0,
   [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
@@ -74,7 +74,7 @@ const t6 = new Treasure(
   [4, 10]
 )
 const t7 = new Treasure(
-  't7',
+  't-7',
   14,
   0,
   [1, 2, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
@@ -83,7 +83,7 @@ const t7 = new Treasure(
   [4]
 )
 const t8 = new Treasure(
-  't8',
+  't-8',
   14,
   0,
   [1, 2, 3, 4, 5, 6, 8, 9, 10, 12, 13, 14, 15, 16],
@@ -92,7 +92,7 @@ const t8 = new Treasure(
   [5]
 )
 const t9 = new Treasure(
-  't9',
+  't-9',
   14,
   0,
   [1, 2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16],
@@ -101,7 +101,7 @@ const t9 = new Treasure(
   [6, 16]
 )
 const t10 = new Treasure(
-  't10',
+  't-10',
   14,
   0,
   [1, 2, 3, 4, 5, 6, 7, 9, 10, 11, 13, 14, 15, 16],
@@ -110,7 +110,7 @@ const t10 = new Treasure(
   [16]
 )
 const t11 = new Treasure(
-  't11',
+  't-11',
   14,
   0,
   [1, 2, 3, 4, 5, 7, 8, 9, 10, 12, 13, 14, 15, 16],
@@ -119,7 +119,7 @@ const t11 = new Treasure(
   [7, 10]
 )
 const t12 = new Treasure(
-  't12',
+  't-12',
   14,
   0,
   [1, 3, 4, 5, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
@@ -128,7 +128,7 @@ const t12 = new Treasure(
   [4, 16]
 )
 const t13 = new Treasure(
-  't13',
+  't-13',
   12,
   14,
   [1, 2, 3, 4, 5, 8, 9, 12, 13, 14, 15, 16],
@@ -137,7 +137,7 @@ const t13 = new Treasure(
   [1, 16]
 )
 const t14 = new Treasure(
-  't14',
+  't-14',
   12,
   10,
   [2, 4, 6, 8, 9, 10, 11, 12, 13, 14, 15, 16],
@@ -146,7 +146,7 @@ const t14 = new Treasure(
   [2, 4]
 )
 const t15 = new Treasure(
-  't15',
+  't-15',
   12,
   8,
   [1, 2, 4, 5, 6, 8, 9, 10, 11, 12, 15, 16],
@@ -155,7 +155,7 @@ const t15 = new Treasure(
   [6, 8]
 )
 const t16 = new Treasure(
-  't16',
+  't-16',
   12,
   0,
   [1, 4, 5, 8, 9, 10, 11, 12, 13, 14, 15, 16],
@@ -164,7 +164,7 @@ const t16 = new Treasure(
   [1]
 )
 const t17 = new Treasure(
-  't17',
+  't-17',
   12,
   0,
   [1, 2, 5, 6, 7, 8, 9, 10, 11, 12, 15, 16],
@@ -173,7 +173,7 @@ const t17 = new Treasure(
   [16]
 )
 const t18 = new Treasure(
-  't18',
+  't-18',
   12,
   0,
   [1, 2, 5, 6, 7, 9, 10, 11, 12, 14, 15, 16],
@@ -182,7 +182,7 @@ const t18 = new Treasure(
   [2]
 )
 const t19 = new Treasure(
-  't19',
+  't-19',
   12,
   0,
   [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 15, 16],
@@ -191,7 +191,7 @@ const t19 = new Treasure(
   [9, 12]
 )
 const t20 = new Treasure(
-  't20',
+  't-20',
   12,
   0,
   [1, 2, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15],
@@ -200,7 +200,7 @@ const t20 = new Treasure(
   [8]
 )
 const t21 = new Treasure(
-  't21',
+  't-21',
   12,
   0,
   [2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15],
@@ -209,7 +209,7 @@ const t21 = new Treasure(
   [5, 12]
 )
 const t22 = new Treasure(
-  't22',
+  't-22',
   12,
   0,
   [1, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
@@ -218,7 +218,7 @@ const t22 = new Treasure(
   [10]
 )
 const t23 = new Treasure(
-  't23',
+  't-23',
   12,
   0,
   [2, 3, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16],
@@ -227,7 +227,7 @@ const t23 = new Treasure(
   [16]
 )
 const t24 = new Treasure(
-  't24',
+  't-24',
   12,
   0,
   [1, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16],
@@ -236,7 +236,7 @@ const t24 = new Treasure(
   [13]
 )
 const t25 = new Treasure(
-  't25',
+  't-25',
   10,
   14,
   [1, 2, 3, 4, 5, 8, 9, 10, 11, 12],
@@ -245,7 +245,7 @@ const t25 = new Treasure(
   []
 )
 const t26 = new Treasure(
-  't26',
+  't-26',
   10,
   12,
   [1, 2, 3, 4, 5, 6, 9, 10, 11, 12],
@@ -254,7 +254,7 @@ const t26 = new Treasure(
   []
 )
 const t27 = new Treasure(
-  't27',
+  't-27',
   10,
   8,
   [2, 3, 4, 5, 6, 8, 9, 10, 11, 12],
@@ -263,7 +263,7 @@ const t27 = new Treasure(
   []
 )
 const t28 = new Treasure(
-  't28',
+  't-28',
   10,
   0,
   [1, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -272,7 +272,7 @@ const t28 = new Treasure(
   [4]
 )
 const t29 = new Treasure(
-  't29',
+  't-29',
   10,
   0,
   [2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
@@ -281,7 +281,7 @@ const t29 = new Treasure(
   [8, 9]
 )
 const t30 = new Treasure(
-  't30',
+  't-30',
   10,
   0,
   [1, 3, 4, 5, 7, 8, 9, 10, 11, 12],
@@ -290,7 +290,7 @@ const t30 = new Treasure(
   [3]
 )
 const t31 = new Treasure(
-  't31',
+  't-31',
   10,
   0,
   [3, 4, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -299,7 +299,7 @@ const t31 = new Treasure(
   [3]
 )
 const t32 = new Treasure(
-  't32',
+  't-32',
   10,
   0,
   [1, 2, 3, 4, 6, 7, 9, 10, 11, 12],
@@ -308,7 +308,7 @@ const t32 = new Treasure(
   [9]
 )
 const t33 = new Treasure(
-  't33',
+  't-33',
   10,
   0,
   [2, 3, 5, 6, 7, 8, 9, 10, 11, 12],
@@ -317,7 +317,7 @@ const t33 = new Treasure(
   [12]
 )
 const t34 = new Treasure(
-  't34',
+  't-34',
   10,
   0,
   [1, 3, 4, 5, 6, 7, 8, 9, 11, 12],
@@ -326,7 +326,7 @@ const t34 = new Treasure(
   [8]
 )
 const t35 = new Treasure(
-  't35',
+  't-35',
   10,
   0,
   [2, 3, 4, 6, 7, 8, 9, 10, 11, 12],
@@ -335,7 +335,7 @@ const t35 = new Treasure(
   [9, 12]
 )
 const t36 = new Treasure(
-  't36',
+  't-36',
   10,
   0,
   [1, 2, 3, 5, 6, 7, 8, 9, 10, 11],
@@ -343,17 +343,33 @@ const t36 = new Treasure(
   [],
   [1]
 )
-const t37 = new Treasure('t37', 8, 14, [1, 3, 5, 6, 7, 8, 9, 11], [], [], [])
-const t38 = new Treasure('t38', 8, 12, [1, 4, 5, 6, 7, 8, 9, 12], [], [], [])
-const t39 = new Treasure('t39', 8, 10, [1, 2, 3, 5, 7, 9, 10, 11], [], [], [])
-const t40 = new Treasure('t40', 8, 0, [1, 2, 5, 6, 7, 9, 10, 11], [], [], [1])
-const t41 = new Treasure('t41', 8, 0, [1, 3, 4, 5, 6, 7, 8, 10], [], [1], [])
-const t42 = new Treasure('t42', 8, 0, [2, 3, 5, 6, 7, 8, 10, 11], [], [8], [])
-const t43 = new Treasure('t43', 8, 0, [2, 5, 6, 7, 8, 10, 11, 12], [], [7], [])
-const t44 = new Treasure('t44', 8, 0, [2, 3, 5, 6, 7, 8, 9, 12], [5], [], [8])
-const t45 = new Treasure('t45', 8, 0, [1, 2, 5, 6, 7, 8, 11, 12], [12], [], [1])
-const t46 = new Treasure('t46', 8, 0, [1, 2, 5, 6, 7, 8, 9, 10], [], [7], [])
-const t47 = new Treasure('t47', 8, 0, [1, 2, 3, 6, 7, 10, 11, 12], [7], [], [6])
+const t37 = new Treasure('t-37', 8, 14, [1, 3, 5, 6, 7, 8, 9, 11], [], [], [])
+const t38 = new Treasure('t-38', 8, 12, [1, 4, 5, 6, 7, 8, 9, 12], [], [], [])
+const t39 = new Treasure('t-39', 8, 10, [1, 2, 3, 5, 7, 9, 10, 11], [], [], [])
+const t40 = new Treasure('t-40', 8, 0, [1, 2, 5, 6, 7, 9, 10, 11], [], [], [1])
+const t41 = new Treasure('t-41', 8, 0, [1, 3, 4, 5, 6, 7, 8, 10], [], [1], [])
+const t42 = new Treasure('t-42', 8, 0, [2, 3, 5, 6, 7, 8, 10, 11], [], [8], [])
+const t43 = new Treasure('t-43', 8, 0, [2, 5, 6, 7, 8, 10, 11, 12], [], [7], [])
+const t44 = new Treasure('t-44', 8, 0, [2, 3, 5, 6, 7, 8, 9, 12], [5], [], [8])
+const t45 = new Treasure(
+  't-45',
+  8,
+  0,
+  [1, 2, 5, 6, 7, 8, 11, 12],
+  [12],
+  [],
+  [1]
+)
+const t46 = new Treasure('t-46', 8, 0, [1, 2, 5, 6, 7, 8, 9, 10], [], [7], [])
+const t47 = new Treasure(
+  't-47',
+  8,
+  0,
+  [1, 2, 3, 6, 7, 10, 11, 12],
+  [7],
+  [],
+  [6]
+)
 
 const tmDeck = [
   t1,

@@ -125,6 +125,8 @@ const dealTM = (destinationID) => {
   let bonusValue = convertSuit(nextTM.bonusSuit, 'bonusVal')
 
   let destination = document.querySelector(`#${destinationID}`)
+  destination.title = `${nextTM.id}`
+
   let newTop = document.createElement('div')
   newTop.id = `${destinationID}-top`
   newTop.classList = 'tm-top'
@@ -174,9 +176,63 @@ const dealTM = (destinationID) => {
   }
 }
 
-//player turn function
-// const playerTurn = () => {}
-// playerTurn()
+//titleParser Function - takes a title that ends in a number (e.g., p1-tm1-r-1) and returns the ending number as integer
+const titleParser = (title) => {
+  let titleArr = title.split('-')
+  let titleNumString = titleArr[titleArr.length - 1]
+  let titleNum = parseInt(titleNumString)
+  return titleNum
+}
+
+const transposeETCoordinates = (targetID) => {
+  let targetIDParseArr = targetID.split('-')
+  let targetCoordinate = parseInt(targetIDParseArr[targetIDParseArr.length - 1])
+  let initETCoordinates = currentET.regions[etMirrorIndex][etRotationIndex]
+  //map initial ET coordinates to transposed
+  const transposedETCoordinates = initETCoordinates.map((etCoordinate) => {
+    const transposed = etCoordinate + targetCoordinate - 2
+    return transposed
+  })
+  //check for legal transform (no partial tile row jumping)
+  let rowCompArr = []
+  for (let i = 0; i < initETCoordinates.length; i++) {
+    let initRow
+    let transRow
+    if (initETCoordinates[i] < 5) {
+      initRow = 1
+    } else if (initETCoordinates[i] < 9) {
+      initRow = 2
+    } else if (initETCoordinates[i] < 13) {
+      initRow = 3
+    } else {
+      initRow = 4
+    }
+    if (transposedETCoordinates[i] < 5) {
+      transRow = 1
+    } else if (transposedETCoordinates[i] < 9) {
+      transRow = 2
+    } else if (transposedETCoordinates[i] < 13) {
+      transRow = 3
+    } else {
+      transRow = 4
+    }
+    rowCompArr.push(transRow - initRow)
+  }
+  const rowDiffsSame = rowCompArr.every((num) => {
+    return num === rowCompArr[0]
+  })
+  if (rowDiffsSame) {
+    return transposedETCoordinates
+  } else {
+    return false
+  }
+  // console.log(rowCompArr)
+}
+
+// //illegalPlacement alerts user when tiles won't fit
+// const illegalPlacement = () => {
+//   let newHoverRegion = document.createElement('div')
+// }
 
 const regionHovered = (event) => {
   // console.log(`${event.target.id}`)
@@ -234,9 +290,8 @@ const regionHovered = (event) => {
   //build the currentET active region grid
   //place(?)the (opacity=0.5?) etGrid OVER (z-index=1?) the tm-grid starting at the mouse hover region
   //give the new element class "hover" so it can be cleared when the mouse moves
-
-  // document.querySelector
 }
+
 const clearHovers = () => {
   let previousHovers = document.querySelectorAll('.hover')
   previousHovers.forEach((previousHover) => {
@@ -245,45 +300,43 @@ const clearHovers = () => {
 }
 
 const regionClicked = (event) => {
+  let isLegal = true
   console.log(`${event.target.id}`)
-  // YOU ARE HERE//
-  ////are they still?...the explore tile clicks are weird... need to debug... if we even want to be able to click on it...
-  //****--THIS-> */...maybe clicking and dragging from the explore tile is a stretch goal, and I should just turn off ANY clicking on the explore tile, for now
-
   //transform the explore tile to the click location
-  //check if tile can be legally placed there (compare tile region array to card region array?)
-  //if above is true - place tile?
+  //check if transform was legal
+  //check if transformed coordinates are region-true
+  //you still can't click on a false spot if it would be the top left coordinate of tile
+  ///e.g., e6 (little t) rotated to pointing up, if TM grid r1-false, can't click there to place tile on grid at 2,5,6,7
+
+  //if above is true - place tile
   //place tile function?
   //if not legal, flash alert, suggest rotating or mirroring
 
-  //////////////////////
-  ///YOU ARE HERE--go check out line 214 above for transform
-  //transpose explore tile to event target location
-  let baseETRegions = currentET.regions[etMirrorIndex][etRotationIndex]
-  let eventTargetArrWtf = event.target.id.split('-')
-  let eventTargetNumStringWtf = eventTargetArrWtf[eventTargetArrWtf.length - 1]
-  let eventTargetNumNumWtf = parseInt(eventTargetNumStringWtf)
+  //useful bit of code to grab card number if needed to be referenced from original tm deck
+  let targetCard = event.target.closest('.card').title
+  let targetCardNum = titleParser(targetCard)
 
-  //map baseETRegions to baseETRegionsRelativeToTargets
-  const baseETRegionsRelativeToTargets = baseETRegions.map((bETRegion) => {
-    const bETRegionRelativetoTarget = bETRegion + eventTargetNumNumWtf - 2
-    return bETRegionRelativetoTarget
-  })
-
-  console.log(eventTargetArrWtf)
-  console.log(baseETRegions)
-  console.log(baseETRegionsRelativeToTargets)
-  //transpose etRegion to eRegionTarget (on tm Grid)
-  ///this might need some clean up
-  // let eRegionTargetNum = i + gridTargetNum - 2
-
-  //check if legal
-  let currentExploreRegions = currentET.regions[etMirrorIndex][etRotationIndex]
+  //check if legal - grab tmcard object.regions array
+  ////comment out??
   let parentGrid = document.querySelector(`#${event.target.parentNode.id}`)
   let tmRegions = parentGrid.children
   let tmRegionTrueArr = []
+  ////comment out??
+
+  //this works to build array of grid regions that are available ('.region-true')
+  let targetAvailArr = []
+  let targetGridRegions = document.querySelector(
+    `#${event.target.parentNode.id}`
+  ).children
+  for (let i = 0; i < 16; i++) {
+    if (targetGridRegions[i].classList.value.includes('region-true')) {
+      targetAvailArr.push(titleParser(targetGridRegions[i].id))
+    }
+  }
+  // console.log(targetAvailArr)
 
   ///this is a little nuts
+  ////comment out??
   for (let i = 0; i < tmRegions.length; i++) {
     if (tmRegions[i].classList[2] === 'region-true') {
       let activeRegionIDSplitArr = tmRegions[i].id.split('-')
@@ -292,18 +345,32 @@ const regionClicked = (event) => {
       tmRegionTrueArr.push(wtfNum)
     }
   }
-  currentExploreRegions.forEach((element) => {
-    let legal = true
-    let legalRegion = tmRegionTrueArr.some((num) => {
-      return num === element
-    })
-    console.log(`${element} is legal?: ${legalRegion}`)
-  })
-  console.log(tmRegionTrueArr)
-  {
-    /* <div id="p1-tm1-grid" class="tm-grid"><div id="p1-tm1-r-1" class="region r-1 region-true gem-false banana-false coconut-false"></div><div id="p1-tm1-r-2" class="region r-2 region-false gem-false banana-false coconut-false"></div><div id="p1-tm1-r-3" class="region r-3 region-true gem-false banana-false coconut-false"></div><div id="p1-tm1-r-4" class="region r-4 region-true gem-false banana-false coconut-false"></div><div id="p1-tm1-r-5" class="region r-5 region-true gem-false banana-false coconut-true"></div><div id="p1-tm1-r-6" class="region r-6 region-true gem-false banana-false coconut-false"></div><div id="p1-tm1-r-7" class="region r-7 region-true gem-false banana-false coconut-false"></div><div id="p1-tm1-r-8" class="region r-8 region-true gem-false banana-true coconut-false"></div><div id="p1-tm1-r-9" class="region r-9 region-true gem-false banana-false coconut-false"></div><div id="p1-tm1-r-10" class="region r-10 region-false gem-false banana-false coconut-false"></div><div id="p1-tm1-r-11" class="region r-11 region-true gem-false banana-false coconut-false"></div><div id="p1-tm1-r-12" class="region r-12 region-true gem-false banana-false coconut-false"></div><div id="p1-tm1-r-13" class="region r-13 region-false gem-false banana-false coconut-false"></div><div id="p1-tm1-r-14" class="region r-14 region-false gem-false banana-false coconut-false"></div><div id="p1-tm1-r-15" class="region r-15 region-false gem-false banana-false coconut-false"></div><div id="p1-tm1-r-16" class="region r-16 region-false gem-false banana-false coconut-false"></div></div> */
+  ////comment out
+
+  //transpose etCoordinates wrt target
+  //alert if trasponse returns false (partial row jumping)
+  let transposedETCoordinates = transposeETCoordinates(event.target.id)
+  if (!transposedETCoordinates) {
+    isLegal = false
+    alert('Illegal placement! Try rotating or mirroring the tile!')
+    return
   }
-  // let currentExploreRegions = currentET.regions[etMirrorIndex][etRotationIndex].includes(i)
+
+  //check transposed against targetAvailArr
+  transposedETCoordinates.forEach((coordinate) => {
+    if (!targetAvailArr.includes(coordinate)) {
+      isLegal = false
+      alert('Illegal placement! Try rotating or mirroring the tile!')
+      // illegalPlacement()
+      // return
+      // break
+    }
+  })
+  //you still can't click on a false spot if it would be the top left coordinate of tile
+  ///e.g., e6 (little t) rotated to pointing up, if TM grid r1-false, can't click there to place tile on grid at 2,5,6,7
+  if (isLegal) {
+    console.log('that placement works!')
+  }
 }
 
 const gameSetup = () => {
