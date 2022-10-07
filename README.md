@@ -61,7 +61,7 @@ The project was deployed on Surge, and can be found [here](https://surge.sh/)
 
 ### **_Credits_**
 
-#### Original Game Designer [PANDASAURUS GAMES](https://pandasaurusgames.com/)
+#### Original Game Publisher [PANDASAURUS GAMES](https://pandasaurusgames.com/products/silver-and-gold)
 
 #### Clipart [clipart-library.com](http://clipart-library.com/)
 

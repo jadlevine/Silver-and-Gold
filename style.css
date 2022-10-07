@@ -6,6 +6,16 @@ body{
   background-color:darkslategray;
   color:blanchedalmond;
 }
+nav{
+  display: flex;
+  justify-content: center;
+  background-color:crimson;
+  gap: 3vw;
+}
+
+a:visited{
+  color: white;
+}
 
 #global-area{
   display:flex;
@@ -40,20 +50,47 @@ body{
 }
 .player-score-area{
   display:flex;
-  flex-direction: column;
+  justify-content: space-around;
   border:2px solid black;
 }
-.player-tms{
+.player-tms-area{
   display: flex;
+  justify-content: space-evenly;
   border:2px solid black;
 }
-.player-complete-tms{
+.player-completed-tms-area{
   display:flex;
+  justify-content: space-evenly;
   border:2px solid black;
+}
+.player-header{
+  padding: 1vw;
 }
 
+.player-score-item{
+  border: 1px solid black;
+  width: 8vw;
+  height: 8vw;
+  padding: .7vw;
+  margin: 1vw;
+  font-size:smaller;
+  display:flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
 .card{
   border: 1px solid black;
+  border-radius: 10px;
+  width: 6.4vw;
+  height:10vw;
+  padding: .7vw;
+  margin: 1vw;
+  display:flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.inactive-card{
+  border: hidden;
   border-radius: 10px;
   width: 6.4vw;
   height:10vw;
@@ -158,6 +195,12 @@ body{
 .region-false{
   border:0px;
   /* background-color: rgba(0,0,0,1) */
+}
+.region-marked{
+  border: 1px solid black;
+  width: 1.25vw;
+  height: 1.25vw;
+  font-size: 1vw;
 }
 /*
 .banana-true{
