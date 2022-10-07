@@ -1,5 +1,3 @@
-Insert image here--> ![Image]()
-
 # Treasure Hunter
 
 ## Date: 10/7/2022
@@ -42,27 +40,19 @@ The project was deployed on Surge, and can be found [here](https://surge.sh/)
 
 ---
 
-### **_Screenshots_**
-
-#### screenshot title
-
-![Image](urlGoesHere)
-
 ---
 
 ### **_Future Updates_**
 
-- [ ] Future Update 1
-- [ ] Future Update 2
-- [x] Completed Update
-- [x] ~~Strikethrough~~ Items Also
+- [ ] Multi Player Option
+- [ ] Add coconut bonuses
+- [ ] Add gem bonuses
+- [ ] Add banana bonuses
 
 ---
 
 ### **_Credits_**
 
 #### Original Game Publisher [PANDASAURUS GAMES](https://pandasaurusgames.com/products/silver-and-gold)
-
-#### Clipart [clipart-library.com](http://clipart-library.com/)
 
 #### GA Instructor: [Michael Lackey](https://michaellackey.com/)
