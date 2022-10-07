@@ -156,7 +156,7 @@ const renderPlayerHTML = (player) => {
 
   //player 1 completed tms items
   //Completed Maps Header
-  let completedMapsHeader = document.createElement('h5')
+  let completedMapsHeader = document.createElement('h6')
   completedMapsHeader.id = `${player.id}-completedmaps-header`
   completedMapsHeader.classList = 'player-header completedTM'
   completedMapsHeader.innerText = `Completed\nTreasure\nMaps`
