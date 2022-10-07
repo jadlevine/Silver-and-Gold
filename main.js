@@ -17,6 +17,7 @@ let playerCount
 let startingPlayer = 'player-1' //this is only necessary if we want to offer the user to choose first player
 let currentPlayer = startingPlayer
 let currentET
+let exploreOne = false
 let shuffledTMDeck
 let shuffledETDeck
 let etRotationIndex = 0
@@ -30,7 +31,11 @@ let tmDeckCopy = []
 for (let i = 0; i < tmDeck.length; i++) {
   tmDeckCopy.push(tmDeck[i])
 }
-
+//make a copy of etDeck for reference
+let etDeckCopy = []
+for (let i = 0; i < etDeck.length; i++) {
+  etDeckCopy.push(etDeck[i])
+}
 ////////////////////////////////////
 //FUNCTIONS//
 ////////////////////////////////////
@@ -53,22 +58,36 @@ const shuffle = (deck) => {
 
 //dealET function
 const dealET = () => {
-  currentET = shuffledETDeck.shift()
-  etDeckRendering.innerText = `ET Cards Left: ${shuffledETDeck.length}`
+  if (exploreOne === true) {
+    let exploreOneTile = { id: 'e9', regions: [[[2], [2]]] }
+    currentET = exploreOneTile
+  } else {
+    currentET = shuffledETDeck.shift()
+    etDeckRendering.innerText = `ET Cards Left: ${shuffledETDeck.length}`
+  }
   renderET()
 }
 
 const renderET = () => {
   let etGrid = document.querySelector('#explore-tile-grid')
   etGrid.innerHTML = '' //clears the etGrid
-  for (let i = 1; i < 17; i++) {
+  if (exploreOne === true) {
+    console.log('hello')
     let newRegion = document.createElement('div')
-    newRegion.id = `et-r-${i}`
+    newRegion.id = `et-r-2`
     newRegion.classList = 'region'
-    let regionPresence =
-      currentET.regions[etMirrorIndex][etRotationIndex].includes(i)
-    newRegion.classList.add(`region-${regionPresence}`)
+    newRegion.classList.add(`region-2`)
     etGrid.appendChild(newRegion)
+  } else {
+    for (let i = 1; i < 17; i++) {
+      let newRegion = document.createElement('div')
+      newRegion.id = `et-r-${i}`
+      newRegion.classList = 'region'
+      let regionPresence =
+        currentET.regions[etMirrorIndex][etRotationIndex].includes(i)
+      newRegion.classList.add(`region-${regionPresence}`)
+      etGrid.appendChild(newRegion)
+    }
   }
 }
 
@@ -87,6 +106,17 @@ const mirrorET = () => {
     etMirrorIndex++
   }
   renderET()
+}
+
+const exploreOneFunction = () => {
+  if (
+    confirm(
+      'Are you Sure? You will not be able to use the current Explore Tile this round.'
+    )
+  ) {
+    exploreOne = true
+    renderET()
+  }
 }
 
 const convertSuit = (suitVal, bonusValorClass) => {
@@ -198,7 +228,12 @@ const titleParser = (title) => {
 const transposeETCoordinates = (targetID) => {
   let targetIDParseArr = targetID.split('-')
   let targetCoordinate = parseInt(targetIDParseArr[targetIDParseArr.length - 1])
-  let initETCoordinates = currentET.regions[etMirrorIndex][etRotationIndex]
+  let initETCoordinates
+  if (exploreOne === true) {
+    initETCoordinates = [2]
+  } else {
+    initETCoordinates = currentET.regions[etMirrorIndex][etRotationIndex]
+  }
   //map initial ET coordinates to transposed
   const transposedETCoordinates = initETCoordinates.map((etCoordinate) => {
     const transposed = etCoordinate + targetCoordinate - 2
@@ -392,12 +427,25 @@ const regionClicked = (event) => {
         regionsFalse++
       }
     }
-    // console.log(event.currentTarget.id)
-    // console.log(targetCardID)
-    // console.log(playersArr[0])
-    // console.log(playersArr.length)
-    // console.log(currentPlayer)
+    //if card is complete!
     if (regionsMarked + regionsFalse === 16) {
+      //remove event listners from other card(s)
+      let otherCards = 0
+      // const currentPlayerTMareaID = `${currentPlayer}-tms-area`
+      // const allActiveRegions = document.querySelectorAll(
+      //   `#${currentPlayerTMareaID} .region`
+      // )
+      // allActiveRegions.forEach((region) => {
+      //   //remove all clicks
+      //   region.removeEventListener('click', regionClicked)
+      // })
+      // const rotateButton = document.querySelector('#rotate-button')
+      // const mirrorButton = document.querySelector('#mirror-button')
+      // const exploreOneButton = document.querySelector('#explore-one-button')
+      // rotateButton.removeEventListener('click', rotateET)
+      // mirrorButton.removeEventListener('click', mirrorET)
+      // exploreOneButton.removeEventListener('click', exploreOneFunction)
+
       console.log(`card complete worth ${regionsMarked}`)
       //remove HTML from target card
       let targetCard = event.target.closest('.card')
@@ -494,7 +542,7 @@ const regionClicked = (event) => {
         // let globalParsedNum = parseInt(globalParsedIDArr[1])
         // console.log(globalParsedIDArr) //=>['global','tm3','r','7']
         // console.log(targetCard.id) //=> player-1-tm3
-        console.log(targetCard.title)
+        // console.log(targetCard.title)
         targetCard.title = ''
         // targetCardID = targetCard.id
         //if click was on global deck, deal from there to open spot
@@ -527,15 +575,32 @@ const regionClicked = (event) => {
       ////listen for click on ONE of the global avail cards
       let globalTMArea = document.querySelector('#global-tm-area')
       globalTMArea.addEventListener('click', checkTarget, { once: true })
-
-      ////deal selected card to open spot
-      ////remove rendering for global spot
-      ////deal a NEW card to empty global spot
+    } else {
+      //card not complete
+      //check if etDeck is down to 1 (7/8 cards played each round)
+      ////if true, round++, update status message, reshuffle the etdeck
+      ////then, true or false, initiate playerturn() (for player1)
+      if (shuffledETDeck.length === 1) {
+        roundNum++
+        //update round tracker
+        //
+        statusMessage.innerText = 'A new round is about to begin'
+        //make a copy of the copiedETDeck to be shuffled
+        let newETDeck = []
+        for (let i = 0; i < etDeckCopy.length; i++) {
+          newETDeck.push(etDeckCopy[i])
+        }
+        //shuffle the new deck
+        shuffledETDeck = shuffle(newETDeck)
+        // initiate player next turn
+      }
     }
-    //--if yes - score card, move to complete area, offer player to select a global-avail tm card
-    //then check for et/round(?) completion... if last player has gone, flip new explore tile and start new round
+    playerTurn()
     //--then pass turn - current player=next player, (alert/highlight?)
   }
+  console.log(etDeck.length)
+  console.log(etDeckCopy.length)
+  console.log(shuffledETDeck.length)
 }
 
 const gameSetup = () => {
@@ -684,6 +749,7 @@ const gameSetup = () => {
 const playerTurn = () => {
   statusMessage.innerText =
     'Player turn: place explore tile on an Active Treasure Map to explore'
+  exploreOne = false
   dealET()
   //at some point... early... maybe just another button in the html that goes in the global-explore area
   //////MUST offer to explore a single region (rather than use the avail tile)
@@ -705,8 +771,10 @@ const playerTurn = () => {
 
   const rotateButton = document.querySelector('#rotate-button')
   const mirrorButton = document.querySelector('#mirror-button')
+  const exploreOneButton = document.querySelector('#explore-one-button')
   rotateButton.addEventListener('click', rotateET)
   mirrorButton.addEventListener('click', mirrorET)
+  exploreOneButton.addEventListener('click', exploreOneFunction)
 }
 
 const getPlayerCount = () => {
