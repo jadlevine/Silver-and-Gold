@@ -5,7 +5,7 @@
 import { tmDeck } from './js_modules/treasureMapsDeck.js'
 import { etDeck } from './js_modules/explorationTilesDeck.js'
 import { playersArr, playerSetup } from './js_modules/playerObjects.js'
-// console.log(playersArr.length)
+
 let tmTestCard = tmDeck[39]
 console.log(`test id: ${tmTestCard.id}`)
 
@@ -14,7 +14,7 @@ console.log(`test id: ${tmTestCard.id}`)
 ////////////////////////////////////
 let roundNum = 0
 let playerCount
-let startingPlayer = 'p1' //this is only necessary if we want to offer the user to choose first player
+let startingPlayer = 'player-1' //this is only necessary if we want to offer the user to choose first player
 let currentPlayer = startingPlayer
 let currentET
 let shuffledTMDeck
@@ -121,8 +121,13 @@ const convertSuit = (suitVal, bonusValorClass) => {
 }
 
 //dealTM
-const dealTM = (destinationID) => {
-  let nextTM = shuffledTMDeck.shift()
+const dealTM = (destinationID, sourceCard) => {
+  let nextTM
+  if (sourceCard === 'deck') {
+    nextTM = shuffledTMDeck.shift()
+  } else {
+    nextTM = sourceCard
+  }
   let suitClass = convertSuit(nextTM.suit)
   let bonusClass = convertSuit(nextTM.bonusSuit)
   let bonusValue = convertSuit(nextTM.bonusSuit, 'bonusVal')
@@ -320,10 +325,10 @@ const regionClicked = (event) => {
   //if not legal, flash alert, suggest rotating or mirroring
 
   //useful bit of code to grab card number if needed to be referenced from original tm deck
-  let targetCard1 = event.target.closest('.card').title
-  let targetCardNum = titleParser(targetCard1)
-
-  //check if legal - grab tmcard object.regions array
+  // let targetCardTitle = event.target.closest('.card').title
+  // let targetCardID = event.target.closest('.card').id
+  // let targetCardNum = titleParser(targetCardTitle)
+  // //check if legal - grab tmcard object.regions array
 
   //this works to build array of grid regions that are available ('.region-true')
   let targetAvailArr = []
@@ -387,11 +392,148 @@ const regionClicked = (event) => {
         regionsFalse++
       }
     }
+    // console.log(event.currentTarget.id)
+    // console.log(targetCardID)
+    // console.log(playersArr[0])
+    // console.log(playersArr.length)
+    // console.log(currentPlayer)
     if (regionsMarked + regionsFalse === 16) {
       console.log(`card complete worth ${regionsMarked}`)
+      //remove HTML from target card
+      let targetCard = event.target.closest('.card')
+      let targetCardID = targetCard.id
+      document.querySelector(`#${targetCardID}`).innerHTML = ''
+
+      //score the card
+      //grab info from the completed card
+      let targetCardTitle = targetCard.title
+      let targetCardNum = titleParser(targetCardTitle)
+      let cardObject = tmDeckCopy[targetCardNum - 1]
+      let cardBonusSuit = cardObject.bonusSuit
+
+      //grab playerObject to update scores, etc...
+      let currentPlayerNum = titleParser(currentPlayer)
+      let playerObject = playersArr[currentPlayerNum - 1]
+
+      //push card bonus suit to playerObject.bonusesEarned Array
+      if (cardBonusSuit !== 0) {
+        playerObject.bonusesEarned.push(cardObject.bonusSuit)
+      }
+      //add completed card Num to playerObject.completed14s, etc...
+      //AND move the rendering to the completed cards area
+      if (cardObject.suit === 14) {
+        playerObject.completed14s.push(cardObject.id)
+        dealTM(`player-${currentPlayerNum}-completed-tm14s`, cardObject)
+      } else if (cardObject.suit === 12) {
+        playerObject.completed12s.push(cardObject.id)
+        dealTM(`player-${currentPlayerNum}-completed-tm12s`, cardObject)
+      } else if (cardObject.suit === 10) {
+        playerObject.completed10s.push(cardObject.id)
+        dealTM(`player-${currentPlayerNum}-completed-tm10s`, cardObject)
+      } else if (cardObject.suit === 8) {
+        playerObject.completed8s.push(cardObject.id)
+        dealTM(`player-${currentPlayerNum}-completed-tm8s`, cardObject)
+      }
+
+      // console.log(playerObject)
+      ///now, you can loop through this array, recalculate bonus score and total score by comparing each item on the playerobjects.completed14s, 12s, 10s, 8s
+      //set to 0 because this will be a full recalculation
+      let newBonusScore = 0
+      for (let i = 0; i < playerObject.bonusesEarned.length; i++) {
+        if (playerObject.bonusesEarned[i] === 8) {
+          newBonusScore += playerObject.completed8s.length
+        } else if (playerObject.bonusesEarned[i] === 10) {
+          newBonusScore += playerObject.completed10s.length
+        } else if (playerObject.bonusesEarned[i] === 12) {
+          newBonusScore += 2 * playerObject.completed12s.length
+        } else if (playerObject.bonusesEarned[i] === 14) {
+          newBonusScore += 2 * playerObject.completed14s.length
+        }
+      }
+      playerObject.bonusScore = newBonusScore
+      ///now post the updated bonus score to the player scoreboard
+      document.querySelector(
+        `#player-${currentPlayerNum}-score-Bonus`
+      ).innerText = `${playerObject.bonusScore}`
+
+      //use playerObject to update/recalculate the maps score
+      let newMapScore = 0
+      let newTotalScore = 0
+      newMapScore += 14 * playerObject.completed14s.length
+      newMapScore += 12 * playerObject.completed12s.length
+      newMapScore += 10 * playerObject.completed10s.length
+      newMapScore += 18 * playerObject.completed8s.length
+      document.querySelector(
+        `#player-${currentPlayerNum}-score-completedTMs`
+      ).innerText = newMapScore
+
+      //use recently calculated maps and bonus scores to calculate total score
+      newTotalScore = newMapScore + newBonusScore
+      document.querySelector(
+        `#player-${currentPlayerNum}-score-total`
+      ).innerText = newTotalScore
+
+      statusMessage.innerText =
+        'You completed a card! Good Job. Now, select a new one from the Available Treasure Maps Cards on top or, select a random one from the TM Cards Left Deck'
+
+      //identify destination (recently vacated)//before the new event listener on the global TM cards gets confused
+      //handler for eventlistener below
+      const checkTarget = (event) => {
+        //if avail global card clicked, grab its info, and deal it
+        let globalTMCard = event.target.closest('.card')
+        // let globalTMCardTitle = globalTMCard.title
+        // let globalTMCardTitle = event.target.closest('.card').title
+        let globalTMCardID = globalTMCard.id
+        // console.log(globalTMCardTitle) //=>t-17
+        let globalTMCardNum = titleParser(globalTMCard.title)
+        //card object from global to be sent to open spot
+        let cardToBeDelivered = tmDeckCopy[globalTMCardNum - 1]
+
+        let globalParsedIDArr = event.target.id.split('-')
+
+        // let globalParsedNum = parseInt(globalParsedIDArr[1])
+        // console.log(globalParsedIDArr) //=>['global','tm3','r','7']
+        // console.log(targetCard.id) //=> player-1-tm3
+        console.log(targetCard.title)
+        targetCard.title = ''
+        // targetCardID = targetCard.id
+        //if click was on global deck, deal from there to open spot
+        //else, deal from global card clicked to open spot, clear the rendering of the global spot, and deal a new card from the deck to the (now open global spot)
+        //ahh.. rendering of global spot not being removed
+        if (globalParsedIDArr[1] === 'tm') {
+          dealTM(targetCard.id, 'deck')
+        } else if (globalParsedIDArr[1] === 'tm1') {
+          dealTM(targetCard.id, cardToBeDelivered)
+          //idk, but it works?//
+          // console.log(globalTMCard) //=>relating to CURRRENT global card in slot1
+          // console.log(globalTMCard.title) //=>relating to card just placed into player area
+          // console.log(globalTMCard.innerHTML) //=>relating to card just placed into player area
+          globalTMCard.innerHTML = '' //is removing rendering the HTML of clicked global avail spot
+          dealTM(globalTMCardID, 'deck')
+        } else if (globalParsedIDArr[1] === 'tm2') {
+          dealTM(targetCard.id, cardToBeDelivered)
+          globalTMCard.innerHTML = ''
+          dealTM(globalTMCardID, 'deck')
+        } else if (globalParsedIDArr[1] === 'tm3') {
+          dealTM(targetCard.id, cardToBeDelivered)
+          globalTMCard.innerHTML = ''
+          dealTM(globalTMCardID, 'deck')
+        } else if (globalParsedIDArr[1] === 'tm4') {
+          dealTM(targetCard.id, cardToBeDelivered)
+          globalTMCard.innerHTML = ''
+          dealTM(globalTMCardID, 'deck')
+        }
+      }
+      ////listen for click on ONE of the global avail cards
+      let globalTMArea = document.querySelector('#global-tm-area')
+      globalTMArea.addEventListener('click', checkTarget, { once: true })
+
+      ////deal selected card to open spot
+      ////remove rendering for global spot
+      ////deal a NEW card to empty global spot
     }
     //--if yes - score card, move to complete area, offer player to select a global-avail tm card
-    //then check for et/round(?) complettion... if last player has gone, flip new explore tile and start new round
+    //then check for et/round(?) completion... if last player has gone, flip new explore tile and start new round
     //--then pass turn - current player=next player, (alert/highlight?)
   }
 }
@@ -403,16 +545,14 @@ const gameSetup = () => {
   //deal starting cards to players
   let startingCards = document.querySelectorAll('.activeTM.card')
   for (let i = 0; i < startingCards.length; i++) {
-    dealTM(startingCards[i].id)
+    dealTM(startingCards[i].id, 'deck')
   }
 
   //ensure that only 2 cards are clicked for return
   let numReturned = 0
   const returnToTMDeck = (event) => {
     // console.log(event.currentTarget.id)
-    //remove card rendering from card area
-    event.currentTarget.title = ''
-    event.currentTarget.innerHTML = ''
+    console.log(event.currentTarget.title)
 
     //put card back in shuffledTMDeck
     let targetNum = titleParser(event.currentTarget.title)
@@ -422,6 +562,10 @@ const gameSetup = () => {
 
     //update TM Cards Left
     tmDeckRendering.innerText = `TM Cards Left: ${shuffledTMDeck.length}`
+
+    //remove card rendering from card area
+    event.currentTarget.title = ''
+    event.currentTarget.innerHTML = ''
 
     //check if that was the second discard
     numReturned++
@@ -433,41 +577,72 @@ const gameSetup = () => {
       card4.removeEventListener('click', returnToTMDeck)
 
       //cleanup tm area
+      let card1TNum = titleParser(card1.title)
+      let card2TNum = titleParser(card2.title)
+      let card3TNum = titleParser(card3.title)
+      let card4TNum = titleParser(card4.title)
+
       if (card1.title === '' && card2.title === '') {
-        card2.title = card3.title
-        card2.innerHTML = card3.innerHTML
-        card3.title = card4.title
-        card3.innerHTML = card4.innerHTML
-        card4.title = ''
-        card4.innerHTML = ''
+        //dealTM(destinationID,sourceCard)
+        //deal/render tm3 to tm2
+        dealTM(`${currentPlayer}-tm2`, tmDeckCopy[card3TNum - 1])
+        //clear tm3 - VIP, otherwise tm4 will just be added below tm3 in next step
+        card3.title = ''
+        card3.innerHTML = ''
+        //deal/render tm4 to tm3
+        dealTM(`${currentPlayer}-tm3`, tmDeckCopy[card4TNum - 1])
+
+        // card2.title = card3.title
+        // card2.innerHTML = card3.innerHTML
+        // card3.title = card4.title
+        // card3.innerHTML = card4.innerHTML
+        // card4.title = ''
+        // card4.innerHTML = ''
       } else if (card1.title === '' && card3.title === '') {
-        card3.title = card4.title
-        card3.innerHTML = card4.innerHTML
-        card4.title = ''
-        card4.innerHTML = ''
+        dealTM(`${currentPlayer}-tm3`, tmDeckCopy[card4TNum - 1])
+
+        // card3.title = card4.title
+        // card3.innerHTML = card4.innerHTML
+        // card4.title = ''
+        // card4.innerHTML = ''
       } else if (card2.title === '' && card3.title === '') {
-        card2.title = card1.title
-        card2.innerHTML = card1.innerHTML
-        card1.title = ''
-        card1.innerHTML = ''
-        card3.title = card4.title
-        card3.innerHTML = card4.innerHTML
-        card4.title = ''
-        card4.innerHTML = ''
+        dealTM(`${currentPlayer}-tm2`, tmDeckCopy[card1TNum - 1])
+        dealTM(`${currentPlayer}-tm3`, tmDeckCopy[card4TNum - 1])
+
+        // card2.title = card1.title
+        // card2.innerHTML = card1.innerHTML
+        // card1.title = ''
+        // card1.innerHTML = ''
+        // card3.title = card4.title
+        // card3.innerHTML = card4.innerHTML
+        // card4.title = ''
+        // card4.innerHTML = ''
       } else if (card2.title === '' && card4.title === '') {
-        card2.title = card1.title
-        card2.innerHTML = card1.innerHTML
-        card1.title = ''
-        card1.innerHTML = ''
+        dealTM(`${currentPlayer}-tm2`, tmDeckCopy[card1TNum - 1])
+        // card2.title = card1.title
+        // card2.innerHTML = card1.innerHTML
+        // card1.title = ''
+        // card1.innerHTML = ''
       } else if (card3.title === '' && card4.title === '') {
-        card3.title = card2.title
-        card3.innerHTML = card2.innerHTML
-        card2.title = card1.title
-        card2.innerHTML = card1.innerHTML
-        card1.title = ''
-        card1.innerHTML = ''
+        //deal 2-->3
+        dealTM(`${currentPlayer}-tm3`, tmDeckCopy[card2TNum - 1])
+        //blank 2
+        card2.title = ''
+        card2.innerHTML = ''
+        //deal 1-->2
+        dealTM(`${currentPlayer}-tm2`, tmDeckCopy[card1TNum - 1])
+        // card3.title = card2.title
+        // card3.innerHTML = card2.innerHTML
+        // card2.title = card1.title
+        // card2.innerHTML = card1.innerHTML
+        // card1.title = ''
+        // card1.innerHTML = ''
       }
       //remove rendering of card 1 & 4
+      card1.title = ''
+      card1.innerHTML = ''
+      card4.title = ''
+      card4.innerHTML = ''
       card1.classList.add('inactive-card')
       card1.classList.remove('card')
       card4.classList.add('inactive-card')
@@ -479,10 +654,10 @@ const gameSetup = () => {
       if (statusMessage) {
         //change this if you add 2 players
         //deal avail tm cards
-        dealTM('global-tm1')
-        dealTM('global-tm2')
-        dealTM('global-tm3')
-        dealTM('global-tm4')
+        dealTM('global-tm1', 'deck')
+        dealTM('global-tm2', 'deck')
+        dealTM('global-tm3', 'deck')
+        dealTM('global-tm4', 'deck')
         //initiate player turn round 1
         playerTurn()
       }
@@ -513,6 +688,25 @@ const playerTurn = () => {
   //at some point... early... maybe just another button in the html that goes in the global-explore area
   //////MUST offer to explore a single region (rather than use the avail tile)
   ////as per game rules, this should always be available
+
+  //event listeners for player turn only
+  //isolate avtive regions ('.region-true') of current player tms area (e.g., 'p1-tms-area')
+  const currentPlayerTMareaID = `${currentPlayer}-tms-area`
+  const allActiveRegions = document.querySelectorAll(
+    `#${currentPlayerTMareaID} .region`
+  )
+  allActiveRegions.forEach((region) => {
+    //listen for clicks
+    region.addEventListener('click', regionClicked)
+    //listen for mouseovers
+    ////THIS NEED TO COME BACK FOR MOUSEOVER TO WORK///
+    // region.addEventListener('mouseover', regionHovered)
+  })
+
+  const rotateButton = document.querySelector('#rotate-button')
+  const mirrorButton = document.querySelector('#mirror-button')
+  rotateButton.addEventListener('click', rotateET)
+  mirrorButton.addEventListener('click', mirrorET)
 }
 
 const getPlayerCount = () => {
@@ -558,31 +752,33 @@ const gameControl = () => {
   gameSetup()
   //playerTurn only called at end of game setup, after global tms are dealt
 }
-
+gameControl()
 ////////////////////////////////////
 //EVENT LISTENERS//
 ////////////////////////////////////
 
 //run game control function when document loads
 // window.addEventListener('load', gameControl)
-gameControl()
-//isolate avtive regions ('.region-true') of current player tms area (e.g., 'p1-tms-area')
-const currentPlayerTMareaID = `${currentPlayer}-tms-area`
-const allActiveRegions = document.querySelectorAll(
-  `#${currentPlayerTMareaID} .region`
-)
-allActiveRegions.forEach((region) => {
-  //listen for clicks
-  region.addEventListener('click', regionClicked)
-  //listen for mouseovers
-  ////THIS NEED TO COME BACK FOR MOUSEOVER TO WORK///
-  // region.addEventListener('mouseover', regionHovered)
-})
+// gameControl()
 
-const rotateButton = document.querySelector('#rotate-button')
-const mirrorButton = document.querySelector('#mirror-button')
-rotateButton.addEventListener('click', rotateET)
-mirrorButton.addEventListener('click', mirrorET)
+// ///Only during player turn??
+// //isolate avtive regions ('.region-true') of current player tms area (e.g., 'p1-tms-area')
+// const currentPlayerTMareaID = `${currentPlayer}-tms-area`
+// const allActiveRegions = document.querySelectorAll(
+//   `#${currentPlayerTMareaID} .region`
+// )
+// allActiveRegions.forEach((region) => {
+//   //listen for clicks
+//   region.addEventListener('click', regionClicked)
+//   //listen for mouseovers
+//   ////THIS NEED TO COME BACK FOR MOUSEOVER TO WORK///
+//   // region.addEventListener('mouseover', regionHovered)
+// })
+
+// const rotateButton = document.querySelector('#rotate-button')
+// const mirrorButton = document.querySelector('#mirror-button')
+// rotateButton.addEventListener('click', rotateET)
+// mirrorButton.addEventListener('click', mirrorET)
 
 //for testing only, will eventually be automatic when a round is over, or after a confirm on "ready to go onto next exploration?
 //deals an ET tile when e-deck is clicked

@@ -3,7 +3,12 @@ class Player {
     playerNum,
     totalScore,
     completedMapsScore,
-    bonusScore
+    bonusScore,
+    bonusesEarned,
+    completed14s,
+    completed12s,
+    completed10s,
+    completed8s
     // add gems, bananas, and coconuts later
   ) {
     this.num = playerNum
@@ -11,28 +16,33 @@ class Player {
     this.totalScore = totalScore
     this.completedMapsScore = completedMapsScore
     this.bonusScore = bonusScore
+    this.bonusesEarned = bonusesEarned
+    this.completed14s = completed14s
+    this.completed12s = completed12s
+    this.completed10s = completed10s
+    this.completed8s = completed8s
   }
 }
 
 const playersArr = []
 const playerSetup = (num) => {
   if (num > 0) {
-    const player1 = new Player(1, 0, 0, 0)
+    const player1 = new Player(1, 0, 0, 0, [], [], [], [], [])
     playersArr.push(player1)
     renderPlayerHTML(player1)
   }
   if (num > 1) {
-    const player2 = new Player(2, 0, 0, 0)
+    const player2 = new Player(2, 0, 0, 0, [], [], [], [], [])
     playersArr.push(player2)
     renderPlayerHTML(player2)
   }
   if (num > 2) {
-    const player3 = new Player(3, 0, 0, 0)
+    const player3 = new Player(3, 0, 0, 0, [], [], [], [], [])
     playersArr.push(player3)
     renderPlayerHTML(player3)
   }
   if (num > 3) {
-    const player4 = new Player(4, 0, 0, 0)
+    const player4 = new Player(4, 0, 0, 0, [], [], [], [], [])
     playersArr.push(player4)
     renderPlayerHTML(player4)
   }
