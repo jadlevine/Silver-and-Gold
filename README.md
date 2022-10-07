@@ -36,7 +36,7 @@ Points are scored from completed Treasure Maps, Map bonuses, gems, and coconuts.
 
 Th project was organized using Trello. The board can be found [here](https://trello.com/b/msb0rZe6)
 
-The project was deployed on Surge, and can be found [here](https://surge.sh/)
+The project was deployed on Surge, and can be found [here](spectacular-icicle.surge.sh)
 
 ---
 
