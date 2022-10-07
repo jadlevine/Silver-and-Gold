@@ -48,7 +48,6 @@ const playerSetup = (num) => {
   }
 }
 
-//a "newDiv" Class could dry this up a lot!
 const renderPlayerHTML = (player) => {
   //Player 1 area
   let newPlayerArea = document.createElement('div')
@@ -203,31 +202,3 @@ const renderPlayerHTML = (player) => {
 }
 
 export { playerSetup, playersArr }
-//parent
-{
-  /* <div id="players-area"></div>
-//playerHTML
-<div id="p1-area" class="player-area p1">Player 1
-      
-  <div id="p1-score-area" class="player-score-area p1">.player-score-area player1
-        <div>gems</div>
-        <div>coconuts</div>
-        <div>complete-maps</div>
-        <div>map-bonuses</div>
-        <div>total</div>
-      </div>
-      <div id = "p1-tms-area" class="player-tms p1">
-        <div id="p1-tm1" class="card tm active1 p1">map1</div>
-        <div id="p1-tm2" class="card tm active2 p1">map2</div>
-        <div id="p1-tm3" class="card tm active3 p1">map3</div>
-        <div id="p1-tm4" class="card tm active4 p1">map4</div>
-      </div>
-      <div class="player-complete-tms player1">player-complete-tms player1
-        <div class="card tm complete14 p1">14s</div>
-        <div class="card tm complete12 p1">12s</div>
-        <div class="card tm complete10 p1">10s</div>
-        <div class="card tm complete8 p1">8s</div>
-      </div>
-    </div>
-     */
-}
